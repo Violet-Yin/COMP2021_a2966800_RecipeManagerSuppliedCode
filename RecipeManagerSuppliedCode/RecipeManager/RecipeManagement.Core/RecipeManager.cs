@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace RecipeManagement.Core;
 
@@ -19,8 +20,40 @@ public sealed class RecipeManager : IRecipeManager
 
     public RecipeManager(IEnumerable<Recipe> recipes)
     {
-        // TODO Part A: validate recipes and build Dictionary<int, Recipe>.
-        _ = recipes;
+        // check recipes isnt null
+        if (recipes == null)
+        {
+            throw new ArgumentNullException();
+        }
+
+
+
+        
+        foreach(var recipe in recipes)
+        {
+            if(recipe.Id <= 0)
+            {
+                throw new Exception("Recipe ID must be positive");
+            }
+            else if(string.IsNullOrWhiteSpace(recipe.Title))
+            {
+                throw new ArgumentNullException("Title cant be blank");
+            }
+            else if(_recipesCatalogue.ContainsKey(recipe.Id))
+            {
+                throw new Exception("Recipe ID must be unique");
+            }
+            // _ = recipes;
+            _recipesCatalogue.Add(recipe.Id, recipe);
+
+        }
+
+        
+    
+            
+
+        
+
     }
 
     public int RecipeCount => 0;
