@@ -25,10 +25,7 @@ public sealed class RecipeManager : IRecipeManager
         {
             throw new ArgumentNullException();
         }
-
-
-
-        
+        // Validate ID and Title 
         foreach(var recipe in recipes)
         {
             if(recipe.Id <= 0)
@@ -43,17 +40,8 @@ public sealed class RecipeManager : IRecipeManager
             {
                 throw new Exception("Recipe ID must be unique");
             }
-            // _ = recipes;
             _recipesCatalogue.Add(recipe.Id, recipe);
-
-        }
-
-        
-    
-            
-
-        
-
+        } 
     }
 
     public int RecipeCount => 0;
@@ -62,8 +50,16 @@ public sealed class RecipeManager : IRecipeManager
     public int PendingInstructionCount => 0;
     public int RemovedRecipeCount => 0;
 
-    public bool AddRecipe(Recipe recipe) =>
-        throw new NotImplementedException("Part A: implement AddRecipe.");
+    public bool AddRecipe(Recipe recipe)
+    {
+        if(recipe == null || recipe.Id <= 0 || string.IsNullOrWhiteSpace(recipe.Title) || _recipesCatalogue.ContainsKey(recipe.Id))
+        {
+            return false;
+        }
+        _recipesCatalogue.Add(recipe.Id, recipe);
+        return true;
+
+    }
 
     public Recipe? FindRecipe(int recipeId) =>
         throw new NotImplementedException("Part A: implement FindRecipe.");
