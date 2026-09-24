@@ -49,6 +49,8 @@ public sealed class RecipeManager : IRecipeManager
     public int CookingPlanCount => 0;
     public int PendingInstructionCount => 0;
     public int RemovedRecipeCount => 0;
+    
+    // Add the recipe to the catalogue, and only add if the recipe doesnt already exist
 
     public bool AddRecipe(Recipe recipe)
     {
@@ -60,7 +62,7 @@ public sealed class RecipeManager : IRecipeManager
         return true;
 
     }
-
+    // find recipe in the recipe catalogue
     public Recipe? FindRecipe(int recipeId)
     {
         if(_recipesCatalogue.TryGetValue(recipeId, out Recipe? recipe))
@@ -73,8 +75,25 @@ public sealed class RecipeManager : IRecipeManager
         }
     }
 
-    public bool RemoveRecipe(int recipeId) =>
-        throw new NotImplementedException("Part A: implement RemoveRecipe.");
+    /***
+    it wont remove the recipe if the recipe is still exist in cookingPlan
+    if the recipe ID doesnt it return false
+    ***/
+    public bool RemoveRecipe(int recipeId)
+    {
+        if (_cookingPlan.Contains(recipeId))
+        {
+            return false;
+        }
+        else if(_recipesCatalogue.Remove(recipeId, out Recipe? recipe))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     public int AddIngredientsToShoppingList(int recipeId) =>
         throw new NotImplementedException("Part A: implement AddIngredientsToShoppingList.");
