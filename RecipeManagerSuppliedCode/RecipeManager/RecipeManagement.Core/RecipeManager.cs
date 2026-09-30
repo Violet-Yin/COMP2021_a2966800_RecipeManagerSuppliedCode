@@ -187,8 +187,11 @@ public sealed class RecipeManager : IRecipeManager
         return null;   
     }
 
-    public IReadOnlyList<int> GetCookingPlan() =>
-        throw new NotImplementedException("Part A: implement GetCookingPlan.");
+    // .ToList() converts LinkedList into a List, and it implements IReadOnlyList<int>
+    public IReadOnlyList<int> GetCookingPlan()
+    {
+        return _cookingPlan.ToList();
+    }
 
     public bool StartCooking(int recipeId) =>
         throw new NotImplementedException("Part A: implement StartCooking.");

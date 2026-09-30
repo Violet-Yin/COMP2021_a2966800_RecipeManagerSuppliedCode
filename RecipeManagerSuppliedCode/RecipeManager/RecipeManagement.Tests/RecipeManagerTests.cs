@@ -261,6 +261,17 @@ public sealed class RecipeManagerTests
 
         Assert.Equal(10, catalogue.PeekLastRemovedRecipe());
     }
+    // Add recipe to the cooking list 
+    [Fact]
+    public void GetRecipeFromCookingPlan_ByID()
+    {
+        var catalogue = CreateCatalogue();
+        catalogue.AddRecipeToCookingPlan(20);
+        catalogue.AddRecipeToCookingPlan(10);
+        var result = catalogue.GetCookingPlan();
+        Assert.Contains(10, result);
+        Assert.Contains(20, result);
+    }
     
     /* 
         Test validation related to cooking list such as return false
