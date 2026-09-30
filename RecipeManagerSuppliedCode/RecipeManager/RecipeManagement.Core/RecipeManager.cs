@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Markup;
 
@@ -158,9 +159,22 @@ public sealed class RecipeManager : IRecipeManager
         return false;  
     }
 
-    public bool RestoreLastRemovedRecipe() =>
-        throw new NotImplementedException("Part A: implement RestoreLastRemovedRecipe.");
+    public bool RestoreLastRemovedRecipe()
+    {   // inspect the removed-recipe stack 
+        if(_removedCookingPlan.Count == 0)
+        {
+            return false;
+        }
+        //  restore the most recently removed recipe
+        var recipe = _removedCookingPlan.Pop();
+        if(_recipesCatalogue.ContainsKey(recipe) && !_cookingPlan.Contains(recipe))
+        {
+            _cookingPlan.AddLast(recipe);
+            return true;
+        }
+        return false;
 
+    }
     public int? PeekLastRemovedRecipe() =>
         throw new NotImplementedException("Part A: implement PeekLastRemovedRecipe.");
 
