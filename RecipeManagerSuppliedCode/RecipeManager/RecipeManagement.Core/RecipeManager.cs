@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using System.Windows.Markup;
 
 namespace RecipeManagement.Core;
 
@@ -45,7 +46,7 @@ public sealed class RecipeManager : IRecipeManager
     }
 
     public int RecipeCount => _recipesCatalogue.Count;
-    public int ShoppingItemCount => 0;
+    public int ShoppingItemCount => _shoppingList.Count;
     public int CookingPlanCount => 0;
     public int PendingInstructionCount => 0;
     public int RemovedRecipeCount => 0;
@@ -95,8 +96,23 @@ public sealed class RecipeManager : IRecipeManager
         }
     }
 
-    public int AddIngredientsToShoppingList(int recipeId) =>
-        throw new NotImplementedException("Part A: implement AddIngredientsToShoppingList.");
+// if the ricipe exist add it to the shopping list then return the amount of items added, if null return 0
+    public int AddIngredientsToShoppingList(int recipeId)
+    {
+        Recipe? recipe = FindRecipe(recipeId);
+        int countItem = 0;
+        if(recipe != null)
+        {
+            foreach (var item in recipe.Ingredients)
+            {
+                _shoppingList.Add(item);
+                countItem ++;
+            }
+            return countItem;
+            
+        }
+        return 0;
+    }
 
     public IReadOnlyList<string> GetShoppingList() =>
         throw new NotImplementedException("Part A: implement GetShoppingList.");
