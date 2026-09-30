@@ -114,8 +114,12 @@ public sealed class RecipeManager : IRecipeManager
         return 0;
     }
 
-    public IReadOnlyList<string> GetShoppingList() =>
-        throw new NotImplementedException("Part A: implement GetShoppingList.");
+    // show items in the shopping list 
+    public IReadOnlyList<string> GetShoppingList()
+    {
+        return _shoppingList;
+    }
+
 
     public void ClearShoppingList() =>
         throw new NotImplementedException("Part A: implement ClearShoppingList.");
