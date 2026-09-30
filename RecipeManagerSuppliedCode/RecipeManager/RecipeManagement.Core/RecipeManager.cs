@@ -49,7 +49,7 @@ public sealed class RecipeManager : IRecipeManager
     public int RecipeCount => _recipesCatalogue.Count;
     public int ShoppingItemCount => _shoppingList.Count;
     public int CookingPlanCount => _cookingPlan.Count;
-    public int PendingInstructionCount => 0;
+    public int PendingInstructionCount => _cookingInstruction.Count;
     public int RemovedRecipeCount => _removedCookingPlan.Count;
 
     // Add the recipe to the catalogue, and only add if the recipe doesnt already exist
@@ -193,8 +193,23 @@ public sealed class RecipeManager : IRecipeManager
         return _cookingPlan.ToList();
     }
 
-    public bool StartCooking(int recipeId) =>
-        throw new NotImplementedException("Part A: implement StartCooking.");
+    // add the instruction to Queue<str> _cookingInstruction but clear the queue before loaded
+    public bool StartCooking(int recipeId)
+    {   
+        Recipe? recipe = FindRecipe(recipeId);
+        
+        if(recipe?.Instructions.Count >= 1 && recipe != null)
+        {
+            _cookingInstruction.Clear();
+            foreach(var instruc in recipe.Instructions)
+            {
+                _cookingInstruction.Enqueue(instruc); 
+            }
+            return true; 
+        }    
+        return false;
+        
+    }
 
     public string? PeekNextInstruction() =>
         throw new NotImplementedException("Part A: implement PeekNextInstruction.");

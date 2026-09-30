@@ -300,6 +300,26 @@ public sealed class RecipeManagerTests
 
        Assert.True(catalogue.PeekLastRemovedRecipe() == null);
     }
+
+    [Fact]
+    public void StartCookingTheRecipe()
+    {
+        var catalogue = CreateCatalogue();
+        var result = catalogue.StartCooking(10);
+        var recipe = catalogue.FindRecipe(10);
+
+        Queue<String> _cookingInstruction = new ();
+        foreach(var i in recipe.Instructions)
+        {
+            _cookingInstruction.Enqueue(i);
+        }
+        
+        Assert.Contains("First step", _cookingInstruction.Dequeue());
+        Assert.True(result);
+        
+    }
+
+
 }
 
     
