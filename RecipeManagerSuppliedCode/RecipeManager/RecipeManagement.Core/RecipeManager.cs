@@ -211,12 +211,25 @@ public sealed class RecipeManager : IRecipeManager
         
     }
 
-    public string? PeekNextInstruction() =>
-        throw new NotImplementedException("Part A: implement PeekNextInstruction.");
+    // view front instruction without remove anything, empty queue == null
+    public string? PeekNextInstruction()
+    {
+        if (PendingInstructionCount == 0)
+        {
+            return null;
+        }
+        return _cookingInstruction.Peek();
 
-    public string? CompleteNextInstruction() =>
-        throw new NotImplementedException("Part A: implement CompleteNextInstruction.");
+    }
+    // remove and return the instruction to the front, empty queue == null
+    public string? CompleteNextInstruction()
+    {
+        if(PendingInstructionCount == 0)
+        return null;
 
+        var removes = _cookingInstruction.Dequeue();
+        return removes;
+    }
     public IReadOnlyList<Recipe> SearchByTitle(string searchText) =>
         throw new NotImplementedException("Part B: implement SearchByTitle.");
 
