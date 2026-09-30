@@ -47,7 +47,7 @@ public sealed class RecipeManager : IRecipeManager
 
     public int RecipeCount => _recipesCatalogue.Count;
     public int ShoppingItemCount => _shoppingList.Count;
-    public int CookingPlanCount => 0;
+    public int CookingPlanCount => _cookingPlan.Count;
     public int PendingInstructionCount => 0;
     public int RemovedRecipeCount => 0;
 
@@ -141,8 +141,22 @@ public sealed class RecipeManager : IRecipeManager
         return true;
     }
 
-    public bool RemoveRecipeFromCookingPlan(int recipeId) =>
-        throw new NotImplementedException("Part A: implement RemoveRecipeFromCookingPlan.");
+    /* 
+    remove recipe from cooking plan then added it to _removedCookingPlan()
+    if it not in the cooking plan then do nth. 
+    */
+    public bool RemoveRecipeFromCookingPlan(int recipeId)
+    {
+        Recipe? recipe = FindRecipe(recipeId);
+
+        if (recipe != null && _cookingPlan.Contains(recipeId))
+        {   
+            _cookingPlan.Remove(recipeId);
+            _removedCookingPlan.Push(recipeId);
+            return true;
+        }
+        return false;  
+    }
 
     public bool RestoreLastRemovedRecipe() =>
         throw new NotImplementedException("Part A: implement RestoreLastRemovedRecipe.");
