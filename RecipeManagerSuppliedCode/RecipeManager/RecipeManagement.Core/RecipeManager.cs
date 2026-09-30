@@ -50,7 +50,7 @@ public sealed class RecipeManager : IRecipeManager
     public int ShoppingItemCount => _shoppingList.Count;
     public int CookingPlanCount => _cookingPlan.Count;
     public int PendingInstructionCount => 0;
-    public int RemovedRecipeCount => 0;
+    public int RemovedRecipeCount => _removedCookingPlan.Count;
 
     // Add the recipe to the catalogue, and only add if the recipe doesnt already exist
 
@@ -148,12 +148,13 @@ public sealed class RecipeManager : IRecipeManager
     */
     public bool RemoveRecipeFromCookingPlan(int recipeId)
     {
-        Recipe? recipe = FindRecipe(recipeId);
+        Recipe? recipe = FindRecipe(recipeId);  
 
         if (recipe != null && _cookingPlan.Contains(recipeId))
         {   
             _cookingPlan.Remove(recipeId);
             _removedCookingPlan.Push(recipeId);
+            _removedCookingPlan.Count();
             return true;
         }
         return false;  
@@ -161,10 +162,9 @@ public sealed class RecipeManager : IRecipeManager
 
     public bool RestoreLastRemovedRecipe()
     {   // inspect the removed-recipe stack 
-        if(_removedCookingPlan.Count == 0)
-        {
-            return false;
-        }
+        if(RemovedRecipeCount == 0) 
+        return false;
+    
         //  restore the most recently removed recipe
         var recipe = _removedCookingPlan.Pop();
         if(_recipesCatalogue.ContainsKey(recipe) && !_cookingPlan.Contains(recipe))
