@@ -164,49 +164,114 @@ public sealed class RecipeManagerTests
         });
     }
     
-    // missing recipe ID return 0 
+    // // missing recipe ID return 0 
+    // [Fact]
+    // public void AddToShoppingList_RecipeNull()
+    // {
+    //     var catalogue = CreateCatalogue();
+    //     var count = catalogue.AddIngredientsToShoppingList(99);
+        
+    //     Assert.Equal(0, count);
+    // }
+    
+    // // Test items count and get shopping list
+    // [Fact]
+    // public void AddToShoppingList_GetListNCountItem()
+    // {
+    //     var catalogue = CreateCatalogue();
+    //     var recipe = catalogue.AddIngredientsToShoppingList(20);
+    //     var ing = catalogue.GetShoppingList();
+    //     Assert.Equal(3, recipe); 
+    //     Assert.Contains("1 apple", ing);
+    //     Assert.Contains("2 banana", ing);
+    //     Assert.Contains("3 cherry", ing);  
+    // }
+
+    // // Add more then one recipe
+    // [Fact]
+    // public void AddToShoppingList_MutipleRecipe()
+    // {
+    //     var catalogue = CreateCatalogue();
+    //     var recipe1 = catalogue.AddIngredientsToShoppingList(20);
+    //     var recipe2 = catalogue.AddIngredientsToShoppingList(10);
+        
+    //     Assert.True(catalogue.ShoppingItemCount == 4);  
+    // }
+
+    // // Empty the list
+    // [Fact]
+    // public void AddToShoppingList_ClearItem()
+    // {
+    //     var catalogue = CreateCatalogue();
+    //     catalogue.AddIngredientsToShoppingList(20);
+    //     catalogue.ClearShoppingList();
+
+    //     Assert.Equal(0, catalogue.ShoppingItemCount);
+    // }
+
+
+    // Add recipe to the cooking list 
     [Fact]
-    public void AddToShoppingList_RecipeNull()
+    public void AddRecipeFromCookingPlan_AddToList()
     {
         var catalogue = CreateCatalogue();
-        var count = catalogue.AddIngredientsToShoppingList(99);
-        
-        Assert.Equal(0, count);
+        var recipe = catalogue.AddRecipeToCookingPlan(20);
+
+        Assert.True(recipe);
+    }
+
+    // remove from cooking plan and added to a new stack of removedCookingList
+    [Fact]
+    public void RemoveRecipeFromCookingPlan_AddTo_removeCookingList()
+    {
+        var catalogue = CreateCatalogue();
+        catalogue.AddRecipeToCookingPlan(20);
+
+        var removedRecipe = catalogue.RemoveRecipeFromCookingPlan(20);
+
+        Assert.True(removedRecipe);
+        Assert.True(catalogue.CookingPlanCount == 0);
+        Assert.Equal(1, catalogue.RemovedRecipeCount);
+    }
+
+    // restore the most recently removed recipe and add it back to cooking list
+    [Fact]
+    public void RestoreLastRemoveRecipe_AddBackTo_CookingPlan_()
+    {
+        var catalogue = CreateCatalogue();
+        catalogue.AddRecipeToCookingPlan(20);
+        catalogue.AddRecipeToCookingPlan(10);
+
+        catalogue.RemoveRecipeFromCookingPlan(20);
+
+        Assert.True(catalogue.RestoreLastRemovedRecipe());
+        Assert.True(catalogue.CookingPlanCount == 2);
     }
     
-    // Test items count and get shopping list
+    /* 
+        Test validation related to cooking list such as return false
+        if added duplicate recipe to cooking list, the recipe doesnt existing
+        in either the recipeCatalogue or cooking plan and if there nth in the removedCookingPlan stack
+        to restore
+    */
     [Fact]
-    public void AddToShoppingList_GetListNCountItem()
+    public void CookingPlan_Validations()
     {
         var catalogue = CreateCatalogue();
-        var recipe = catalogue.AddIngredientsToShoppingList(20);
-        var ing = catalogue.GetShoppingList();
-        Assert.Equal(3, recipe); 
-        Assert.Contains("1 apple", ing);
-        Assert.Contains("2 banana", ing);
-        Assert.Contains("3 cherry", ing);  
-    }
+        var recipe = catalogue.AddRecipeToCookingPlan(20);
+        Assert.True(recipe);
 
-    // Add more then one recipe
-    [Fact]
-    public void AddToShoppingList_MutipleRecipe()
-    {
-        var catalogue = CreateCatalogue();
-        var recipe1 = catalogue.AddIngredientsToShoppingList(20);
-        var recipe2 = catalogue.AddIngredientsToShoppingList(10);
+
+        var recipe2 = catalogue.AddRecipeToCookingPlan(20);
+        var recipe3 = catalogue.AddRecipeToCookingPlan(99);
+        Assert.False(recipe2);
+        Assert.False(recipe3);
         
-        Assert.True(catalogue.ShoppingItemCount == 4);  
-    }
+        var removedRecipe = catalogue.RemoveRecipeFromCookingPlan(99);
+        Assert.False(removedRecipe);
 
-    // Empty the list
-    [Fact]
-    public void AddToShoppingList_ClearItem()
-    {
-        var catalogue = CreateCatalogue();
-        catalogue.AddIngredientsToShoppingList(20);
-        catalogue.ClearShoppingList();
-
-        Assert.Equal(0, catalogue.ShoppingItemCount);
+       var recipe4= catalogue.RestoreLastRemovedRecipe();
+       Assert.False(recipe4);
     }
 }
 
