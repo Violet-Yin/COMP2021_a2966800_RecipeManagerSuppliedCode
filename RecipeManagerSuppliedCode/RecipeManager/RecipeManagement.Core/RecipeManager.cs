@@ -120,9 +120,11 @@ public sealed class RecipeManager : IRecipeManager
         return _shoppingList;
     }
 
-
-    public void ClearShoppingList() =>
-        throw new NotImplementedException("Part A: implement ClearShoppingList.");
+    // empty shopping list
+    public void ClearShoppingList()
+    {
+        _shoppingList.Clear();
+    }
 
     public bool AddRecipeToCookingPlan(int recipeId) =>
         throw new NotImplementedException("Part A: implement AddRecipeToCookingPlan.");
