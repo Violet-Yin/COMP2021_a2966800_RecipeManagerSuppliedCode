@@ -175,8 +175,17 @@ public sealed class RecipeManager : IRecipeManager
         return false;
 
     }
-    public int? PeekLastRemovedRecipe() =>
-        throw new NotImplementedException("Part A: implement PeekLastRemovedRecipe.");
+    // Return the top recipe ID without removing it, or null when the stack is empty.
+    public int? PeekLastRemovedRecipe()
+    {
+        if(RemovedRecipeCount != 0)
+        {
+            var peekedPlan = _removedCookingPlan.Peek();
+            return peekedPlan;
+        }
+
+        return null;   
+    }
 
     public IReadOnlyList<int> GetCookingPlan() =>
         throw new NotImplementedException("Part A: implement GetCookingPlan.");

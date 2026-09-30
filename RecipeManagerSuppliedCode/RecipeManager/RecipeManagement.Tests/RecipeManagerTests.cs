@@ -247,12 +247,26 @@ public sealed class RecipeManagerTests
         Assert.True(catalogue.RestoreLastRemovedRecipe());
         Assert.True(catalogue.CookingPlanCount == 2);
     }
+
+    // Peek the top recent recipe ID
+    [Fact]
+    public void PeekLastRemoveRecipe_Show_TopRecipeID()
+    {
+        var catalogue = CreateCatalogue();
+        catalogue.AddRecipeToCookingPlan(20);
+        catalogue.AddRecipeToCookingPlan(10);
+
+        catalogue.RemoveRecipeFromCookingPlan(20);
+        catalogue.RemoveRecipeFromCookingPlan(10);
+
+        Assert.Equal(10, catalogue.PeekLastRemovedRecipe());
+    }
     
     /* 
         Test validation related to cooking list such as return false
         if added duplicate recipe to cooking list, the recipe doesnt existing
         in either the recipeCatalogue or cooking plan and if there nth in the removedCookingPlan stack
-        to restore
+        to restore and peek the last reecipe that got remove
     */
     [Fact]
     public void CookingPlan_Validations()
@@ -272,6 +286,8 @@ public sealed class RecipeManagerTests
 
        var recipe4= catalogue.RestoreLastRemovedRecipe();
        Assert.False(recipe4);
+
+       Assert.True(catalogue.PeekLastRemovedRecipe() == null);
     }
 }
 
