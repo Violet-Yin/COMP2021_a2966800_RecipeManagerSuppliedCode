@@ -160,7 +160,6 @@ public sealed class RecipeManager : IRecipeManager
         {   
             _cookingPlan.Remove(recipeId);
             _removedCookingPlan.Push(recipeId);
-            _removedCookingPlan.Count();
             return true;
         }
         return false;  
