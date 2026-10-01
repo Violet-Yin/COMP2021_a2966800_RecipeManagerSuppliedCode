@@ -13,7 +13,6 @@ namespace RecipeManagement.Core;
 /// </summary>
 public sealed class RecipeManager : IRecipeManager
 {
-    // TODO Part A: add your private collection fields here.
     private Dictionary<int, Recipe> _recipesCatalogue = new Dictionary<int, Recipe>();
     private List<string> _shoppingList = new List<string>();
     private LinkedList<int> _cookingPlan = new LinkedList<int>();
@@ -32,15 +31,15 @@ public sealed class RecipeManager : IRecipeManager
         {
             if (recipe.Id <= 0)
             {
-                throw new Exception("Recipe ID must be positive");
+                throw new ArgumentException("Recipe ID must be positive");
             }
             else if (string.IsNullOrWhiteSpace(recipe.Title))
             {
-                throw new ArgumentNullException("Title cant be blank");
+                throw new ArgumentException("Title can not be blank");
             }
             else if (_recipesCatalogue.ContainsKey(recipe.Id))
             {
-                throw new Exception("Recipe ID must be unique");
+                throw new ArgumentException("Recipe ID must be unique");
             }
             _recipesCatalogue.Add(recipe.Id, recipe);
         }
@@ -56,9 +55,16 @@ public sealed class RecipeManager : IRecipeManager
 
     public bool AddRecipe(Recipe recipe)
     {
-        if (recipe == null || recipe.Id <= 0 || string.IsNullOrWhiteSpace(recipe.Title) || _recipesCatalogue.ContainsKey(recipe.Id))
+        if (recipe == null)
         {
-            return false;
+            throw new ArgumentNullException();
+
+        }
+        else if(recipe.Id <= 0 || 
+                string.IsNullOrWhiteSpace(recipe.Title) || 
+                _recipesCatalogue.ContainsKey(recipe.Id))
+        {
+            return false;   
         }
         _recipesCatalogue.Add(recipe.Id, recipe);
         return true;
@@ -118,7 +124,7 @@ public sealed class RecipeManager : IRecipeManager
     // show items in the shopping list 
     public IReadOnlyList<string> GetShoppingList()
     {
-        return _shoppingList;
+        return _shoppingList.ToList();
     }
 
     // empty shopping list
