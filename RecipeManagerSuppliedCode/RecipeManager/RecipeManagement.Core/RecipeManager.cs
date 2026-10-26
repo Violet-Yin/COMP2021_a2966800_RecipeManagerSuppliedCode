@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Markup;
@@ -235,8 +236,13 @@ public sealed class RecipeManager : IRecipeManager
         var removes = _cookingInstruction.Dequeue();
         return removes;
     }
-    public IReadOnlyList<Recipe> SearchByTitle(string searchText) =>
-        throw new NotImplementedException("Part B: implement SearchByTitle.");
+    public IReadOnlyList<Recipe> SearchByTitle(string searchText)
+    {
+        var result = _recipesCatalogue.Values.Where(recipe => recipe.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+        
+        return result.ToList();
+   
+    }
 
     public IReadOnlyList<Recipe> SearchByIngredient(string searchText) =>
         throw new NotImplementedException("Part B: implement SearchByIngredient.");
