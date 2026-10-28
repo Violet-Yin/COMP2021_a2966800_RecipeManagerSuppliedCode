@@ -291,8 +291,16 @@ public sealed class RecipeManager : IRecipeManager
         return false;
     }
     
-    public bool IsRecipeSaved(int recipeId) =>
-        throw new NotImplementedException("Part B: implement IsRecipeSaved.");
+    // Check if the recipe already saved in the list
+    public bool IsRecipeSaved(int recipeId)
+    {
+        if(savedRecipeID.Contains(recipeId))
+        {    
+            return true;
+        }
+
+        return false;
+    }
 
     public IReadOnlyList<int> GetSavedRecipes() =>
         throw new NotImplementedException("Part B: implement GetSavedRecipes.");

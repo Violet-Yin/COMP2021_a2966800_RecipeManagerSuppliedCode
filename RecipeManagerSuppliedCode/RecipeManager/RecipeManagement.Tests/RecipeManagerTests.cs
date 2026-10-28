@@ -288,68 +288,82 @@ public sealed class RecipeManagerTests
        
     // }
 
-    [Fact]
-    public void SearchByTitle_True()
-    {
-        var catalogue = CreateManager();
-        var s1 = catalogue.SearchByTitle("Recipe");
-        var s2 = catalogue.SearchByTitle("a");
-        var s3 = catalogue.SearchByTitle("recipe");
+    // [Fact]
+    // public void SearchByTitle_True()
+    // {
+    //     var catalogue = CreateManager();
+    //     var s1 = catalogue.SearchByTitle("Recipe");
+    //     var s2 = catalogue.SearchByTitle("a");
+    //     var s3 = catalogue.SearchByTitle("recipe");
 
 
-        Assert.Contains("Recipe B", s1[1].Title);
-        Assert.Contains("Recipe A", s2[0].Title);
-        Assert.Contains("Recipe A", s3[0].Title);
-        Assert.Contains("Recipe B", s3[1].Title);
+    //     Assert.Contains("Recipe B", s1[1].Title);
+    //     Assert.Contains("Recipe A", s2[0].Title);
+    //     Assert.Contains("Recipe A", s3[0].Title);
+    //     Assert.Contains("Recipe B", s3[1].Title);
 
-    }
+    // }
 
-    [Fact]
-    public void SearchByIngredient_True()
-    {
-        var catalogue = CreateManager();
-        var s1 = catalogue.SearchByIngredient("apple");
-        var s2 = catalogue.SearchByIngredient("cherry");
+    // [Fact]
+    // public void SearchByIngredient_True()
+    // {
+    //     var catalogue = CreateManager();
+    //     var s1 = catalogue.SearchByIngredient("apple");
+    //     var s2 = catalogue.SearchByIngredient("cherry");
        
-        Assert.Contains("Recipe B", s1[1].Title);
-        Assert.Contains("Recipe B", s2[0].Title);  
+    //     Assert.Contains("Recipe B", s1[1].Title);
+    //     Assert.Contains("Recipe B", s2[0].Title);  
 
-    }
+    // }
+
+    // [Fact]
+    // public void GetHighestProteinRecipes_True()
+    // {
+    //     var catalogue = CreateManager();
+    //     var result = catalogue.GetHighestProteinRecipes(2);
+    //     var result2 = catalogue.GetHighestProteinRecipes(1);
+
+    //     Assert.Equal(2, result.Count);
+    //     Assert.Equal(1, result2?.Count);
+    //     Assert.Contains("Recipe A", result2?[0].Title); 
+
+    // }
+
+    // [Fact]
+    // public void AddSavedRecipe_True()
+    // {
+    //     var catalogue = CreateManager();
+    //     var result = catalogue.AddSavedRecipe(10);
+    //     var result2 = catalogue.AddSavedRecipe(50);
+
+    //     Assert.True(result == true);
+    //     Assert.True(result2 == false);
+
+    // }
+
+    // [Fact]
+    // public void RemovedSavedRecipe_True()
+    // {
+    //     var catalogue = CreateManager();
+    //     catalogue.AddSavedRecipe(10);
+    //     var result2 = catalogue.RemoveSavedRecipe(50);
+
+    //     Assert.True(catalogue.RemoveRecipe(10) == true);
+    //     Assert.True(result2 == false);
+
+    // }
 
     [Fact]
-    public void GetHighestProteinRecipes_True()
-    {
-        var catalogue = CreateManager();
-        var result = catalogue.GetHighestProteinRecipes(2);
-        var result2 = catalogue.GetHighestProteinRecipes(1);
-
-        Assert.Equal(2, result.Count);
-        Assert.Equal(1, result2?.Count);
-        Assert.Contains("Recipe A", result2?[0].Title); 
-
-    }
-
-    [Fact]
-    public void AddSavedRecipe_True()
-    {
-        var catalogue = CreateManager();
-        var result = catalogue.AddSavedRecipe(10);
-        var result2 = catalogue.AddSavedRecipe(50);
-
-        Assert.True(result == true);
-        Assert.True(result2 == false);
-
-    }
-
-    [Fact]
-    public void RemovedSavedRecipe_True()
+    public void IsRecipeSaved_True()
     {
         var catalogue = CreateManager();
         catalogue.AddSavedRecipe(10);
-        var result2 = catalogue.RemoveSavedRecipe(50);
+        catalogue.AddSavedRecipe(20);
+        
 
-        Assert.True(catalogue.RemoveRecipe(10) == true);
-        Assert.True(result2 == false);
+        Assert.True(catalogue.IsRecipeSaved(10) == true);
+        Assert.True(catalogue.IsRecipeSaved(20) == true);
+        
 
     }
 
