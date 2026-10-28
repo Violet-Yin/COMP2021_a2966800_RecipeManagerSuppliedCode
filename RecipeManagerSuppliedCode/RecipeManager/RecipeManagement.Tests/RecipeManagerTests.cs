@@ -329,6 +329,18 @@ public sealed class RecipeManagerTests
 
     }
 
+    [Fact]
+    public void AddSavedRecipe_True()
+    {
+        var catalogue = CreateManager();
+        var result = catalogue.AddSavedRecipe(10);
+        var result2 = catalogue.AddSavedRecipe(50);
+
+        Assert.True(result != null);
+        Assert.False(result2 == null);
+
+    }
+
 }
 
     

@@ -21,6 +21,8 @@ public sealed class RecipeManager : IRecipeManager
     private Stack<int> _removedCookingPlan = new Stack<int>();
     private Queue<string> _cookingInstruction = new Queue<string>();
 
+    private List<int> savedRecipeID = new();
+
     public RecipeManager(IEnumerable<Recipe> recipes)
     {
         // check recipes isnt null
@@ -263,9 +265,19 @@ public sealed class RecipeManager : IRecipeManager
                                             .Take(count).ToList();
         return result;                  
     }
-    public bool AddSavedRecipe(int recipeId) =>
-        throw new NotImplementedException("Part B: implement AddSavedRecipe.");
 
+    // Create a savedrRecipe list to add only the existing recipe from the catalogue
+    public bool AddSavedRecipe(int recipeId)
+    {
+        Recipe? recipe = FindRecipe(recipeId);
+        
+        if(recipe != null && !savedRecipeID.Contains(recipeId))
+        {
+            savedRecipeID.Add(recipeId);
+            return true;
+        }
+        return false;
+    }
     public bool RemoveSavedRecipe(int recipeId) =>
         throw new NotImplementedException("Part B: implement RemoveSavedRecipe.");
 
