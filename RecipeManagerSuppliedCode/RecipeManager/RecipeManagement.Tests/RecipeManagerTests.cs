@@ -48,13 +48,15 @@ public sealed class RecipeManagerTests
                 Id = 10,
                 Title = "Recipe A",
                 Ingredients = new() { "1 apple" },
-                Instructions = new() { "First step", "Second step" }
+                Instructions = new() { "First step", "Second step" },
+                Nutrition = new(){ProteinG = 9}
             },
             new Recipe
             {
                 Id = 20,
                 Title = "Recipe B",
                 Ingredients = new() { "1 apple", "2 banana", "3 cherry"},
+                Nutrition = new(){ProteinG = 5}
             
             }
         });
@@ -310,8 +312,20 @@ public sealed class RecipeManagerTests
         var s2 = catalogue.SearchByIngredient("cherry");
        
         Assert.Contains("Recipe B", s1[1].Title);
-        Assert.Contains("Recipe B", s2[0].Title);
-    
+        Assert.Contains("Recipe B", s2[0].Title);  
+
+    }
+
+    [Fact]
+    public void GetHighestProteinRecipes_True()
+    {
+        var catalogue = CreateManager();
+        var result = catalogue.GetHighestProteinRecipes(2);
+        var result2 = catalogue.GetHighestProteinRecipes(1);
+
+        Assert.Equal(2, result.Count);
+        Assert.Equal(1, result2?.Count);
+        Assert.Contains("Recipe A", result2?[0].Title); 
 
     }
 
