@@ -278,6 +278,8 @@ public sealed class RecipeManager : IRecipeManager
         }
         return false;
     }
+
+    // Removed the saved recipe from the savedrecipe list
     public bool RemoveSavedRecipe(int recipeId)
     {
         Recipe? recipe = FindRecipe(recipeId);
