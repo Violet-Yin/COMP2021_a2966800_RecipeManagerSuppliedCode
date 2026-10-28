@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Markup;
 
@@ -236,6 +237,7 @@ public sealed class RecipeManager : IRecipeManager
         var removes = _cookingInstruction.Dequeue();
         return removes;
     }
+    // search the recipe by title using a partial text
     public IReadOnlyList<Recipe> SearchByTitle(string searchText)
     {
         var result = _recipesCatalogue.Values.Where(recipe => recipe.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase));
@@ -244,8 +246,14 @@ public sealed class RecipeManager : IRecipeManager
    
     }
 
-    public IReadOnlyList<Recipe> SearchByIngredient(string searchText) =>
-        throw new NotImplementedException("Part B: implement SearchByIngredient.");
+    // search ingredient by using a partial of text
+    //recipe.Ingredients is a collection of strings, so I use .Any() to check each ingredient.
+    public IReadOnlyList<Recipe> SearchByIngredient(string searchText)
+    {
+        var result = _recipesCatalogue.Values.Where(recipe => recipe.Ingredients.Any(ing => ing.Contains(searchText, StringComparison.OrdinalIgnoreCase)));
+    
+        return result.ToList();
+    }
 
     public IReadOnlyList<Recipe> GetHighestProteinRecipes(int count) =>
         throw new NotImplementedException("Part B: implement GetHighestProteinRecipes.");

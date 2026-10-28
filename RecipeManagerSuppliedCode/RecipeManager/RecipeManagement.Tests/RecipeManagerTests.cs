@@ -302,6 +302,19 @@ public sealed class RecipeManagerTests
 
     }
 
+    [Fact]
+    public void SearchByIngredient_True()
+    {
+        var catalogue = CreateManager();
+        var s1 = catalogue.SearchByIngredient("apple");
+        var s2 = catalogue.SearchByIngredient("cherry");
+       
+        Assert.Contains("Recipe B", s1[1].Title);
+        Assert.Contains("Recipe B", s2[0].Title);
+    
+
+    }
+
 }
 
     
