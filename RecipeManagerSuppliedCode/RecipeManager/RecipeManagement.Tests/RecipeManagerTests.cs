@@ -367,6 +367,20 @@ public sealed class RecipeManagerTests
 
     }
 
+    [Fact]
+    public void GetSavedRecipes_True()
+    {
+        var catalogue = CreateManager();
+        var r1 = catalogue.AddSavedRecipe(10);
+        var r2 = catalogue.AddSavedRecipe(20);
+        var r3 = catalogue.GetSavedRecipes();
+
+        Assert.True(catalogue.GetCookingPlan != null);
+        Assert.Contains(10, r3);
+        Assert.Contains(20, r3);
+
+    }
+
 }
 
     
