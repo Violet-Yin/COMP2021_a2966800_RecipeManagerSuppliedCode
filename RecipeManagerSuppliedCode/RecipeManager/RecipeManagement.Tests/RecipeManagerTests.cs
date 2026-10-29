@@ -438,7 +438,7 @@ public sealed class RecipeManagerTests
         // remove recipe from saved list
         var rsr = catalogue.RemoveSavedRecipe(10);
 
-        // check if the recipe still exist in the list
+        // check if the recipe still exist in the list or not
         var irs2 = catalogue.IsRecipeSaved(10);
 
         Assert.Contains(st, recipe => recipe.Title == "Recipe A");
