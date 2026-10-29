@@ -47,6 +47,5 @@ dotnet run --project RecipeManagement.Application -- data/recipes.json
 
 Include the required AI acknowledgement statement in your submission as described in the assignment specification.
 
-
 I used Chatgpt to help me understand C# collections, nullable-reference warnings, unit-test behaviour, LINQ method and interpreting the assignment requirements. I did not copy or adapt AI-generated code or other material into my submission. I developed the submitted solution
 myself based on my understanding of the course material.
