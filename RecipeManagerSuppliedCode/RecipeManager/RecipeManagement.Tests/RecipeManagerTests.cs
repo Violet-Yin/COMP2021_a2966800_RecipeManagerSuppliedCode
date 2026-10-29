@@ -315,6 +315,7 @@ public sealed class RecipeManagerTests
        
         Assert.Contains("Recipe B", s1[1].Title);
         Assert.Contains("Recipe B", s2[0].Title);  
+        
 
     }
     //display the num of the recipe that input with the highest protein in the recipe first
@@ -339,8 +340,8 @@ public sealed class RecipeManagerTests
         var result = catalogue.AddSavedRecipe(10);
         var result2 = catalogue.AddSavedRecipe(50);
 
-        Assert.True(result == true);
-        Assert.True(result2 == false);
+        Assert.True(result);
+        Assert.False(result2);
 
     }
 
@@ -352,8 +353,8 @@ public sealed class RecipeManagerTests
         catalogue.AddSavedRecipe(10);
         var result2 = catalogue.RemoveSavedRecipe(50);
 
-        Assert.True(catalogue.RemoveRecipe(10) == true);
-        Assert.True(result2 == false);
+        Assert.True(catalogue.RemoveSavedRecipe(10));
+        Assert.False(result2);
 
     }
 
@@ -366,8 +367,8 @@ public sealed class RecipeManagerTests
         catalogue.AddSavedRecipe(20);
         
 
-        Assert.True(catalogue.IsRecipeSaved(10) == true);
-        Assert.True(catalogue.IsRecipeSaved(20) == true);
+        Assert.True(catalogue.IsRecipeSaved(10));
+        Assert.True(catalogue.IsRecipeSaved(20));
         
 
     }
@@ -381,9 +382,10 @@ public sealed class RecipeManagerTests
         var r2 = catalogue.AddSavedRecipe(20);
         var r3 = catalogue.GetSavedRecipes();
 
-        Assert.True(catalogue.GetCookingPlan != null);
+        Assert.True(r3 != null);
         Assert.Contains(10, r3);
         Assert.Contains(20, r3);
+        Assert.Equal(2, r3.Count);
 
     }
     [Fact]
@@ -403,28 +405,47 @@ public sealed class RecipeManagerTests
         // Recipe havent save to the list yet
         var r2 = catalogue.IsRecipeSaved(20);
 
-        // Search text == null
-        var s1 = catalogue.SearchByTitle("c");
-        // Search ingredient == null
-        var s2 = catalogue.SearchByTitle("corn");
+        // Search text not match
+        var s1 = catalogue.SearchByTitle("abc");
+        // Search ingredient not match
+        var s2 = catalogue.SearchByIngredient("corn");
 
-        Assert.True(r3 == false);
-        Assert.True(r4 == false);
+        Assert.False(r3);
+        Assert.False(r4);
         
-        Assert.True(r6 == false);
-        Assert.True(r2 == false);
+        Assert.False(r6);
+        Assert.False(r2);
 
-        Assert.True(s1 != null);
-        Assert.True(s2 != null);
+        Assert.Empty(s1);
+        Assert.Empty(s2);
 
+    }
 
-
-
-
+    [Fact]
+    public void TestPartB_WorkFlow()
+    {
+        var catalogue = CreateManager();
         
-
+        // search for recipe
+        var st = catalogue.SearchByTitle("recipe");
         
+        // add recipe to saved list
+        var asr = catalogue.AddSavedRecipe(10);
+        
+        // verify if recipe is saved
+        var irs = catalogue.IsRecipeSaved(10);  
 
+        // remove recipe from saved list
+        var rsr = catalogue.RemoveSavedRecipe(10);
+
+        // check if the recipe still exist in the list
+        var irs2 = catalogue.IsRecipeSaved(10);
+
+        Assert.Contains(st, recipe => recipe.Title == "Recipe A");
+        Assert.True(asr);
+        Assert.True(irs);
+        Assert.True(rsr);
+        Assert.False(irs2);
     }
 
 }
