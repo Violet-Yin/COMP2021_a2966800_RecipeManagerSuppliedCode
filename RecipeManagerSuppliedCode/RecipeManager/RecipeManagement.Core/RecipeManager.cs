@@ -301,7 +301,8 @@ public sealed class RecipeManager : IRecipeManager
 
         return false;
     }
-
+    
+    //get saved recipe list
     public IReadOnlyList<int> GetSavedRecipes()
     {
         return savedRecipeID.ToList();
